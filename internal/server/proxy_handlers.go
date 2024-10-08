@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
-	utils "gocache-proxy/internal/utils"
-	"gocache-proxy/security"
+	"gocache-proxy/internal/httphelper"
+	"gocache-proxy/internal/security"
 	"io"
 	"net/http"
 	"net/http/httputil"
@@ -48,10 +48,10 @@ func ProxyRequestHandler(proxy *httputil.ReverseProxy, targetURL *url.URL, endpo
 
 // Verifica se o IP está bloqueado.
 func checkBlockedIP(w http.ResponseWriter, r *http.Request) {
-	clientIP := utils.GetIPAddress(r)
+	clientIP := httphelper.GetIPAddress(r)
 	fmt.Printf("[ GoCache Proxy ] Request from IP: %s\n", clientIP)
 
-	if utils.IsBlocked(clientIP) {
+	if httphelper.IsBlocked(clientIP) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		fmt.Printf("[ GoCache Proxy ] Blocked request from IP: %s\n", clientIP)
 		return
@@ -60,7 +60,7 @@ func checkBlockedIP(w http.ResponseWriter, r *http.Request) {
 
 // Manipula o subdomínio "www".
 func handleSubdomain(r *http.Request) {
-	subdomain := utils.GetSubdomain(r)
+	subdomain := httphelper.GetSubdomain(r)
 	fmt.Printf("[ GoCache Proxy ] Subdomain detected: %s\n", subdomain)
 
 	if subdomain == "www" {

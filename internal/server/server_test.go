@@ -2,8 +2,8 @@ package server_test
 
 import (
 	"fmt"
+	"gocache-proxy/internal/httphelper"
 	"gocache-proxy/internal/server"
-	"gocache-proxy/internal/utils"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -14,7 +14,7 @@ import (
 
 // Carrega os IPs bloqueados no teste.
 func loadBlockedIPs() {
-	utils.BlockedIPs = []string{
+	httphelper.BlockedIPs = []string{
 		"172.16.0.1",
 		"172.16.0.2",
 		"172.16.0.3",

@@ -2,8 +2,8 @@ package main
 
 import (
 	"gocache-proxy/db"
+	"gocache-proxy/internal/httphelper"
 	"gocache-proxy/internal/server"
-	"gocache-proxy/internal/utils"
 	"log"
 )
 
@@ -12,7 +12,7 @@ func main() {
 	db.InitDB()
 
 	// Carrega os IPs bloqueados.
-	utils.LoadBlockedIPs()
+	httphelper.LoadBlockedIPs()
 
 	// Inicia o servidor.
 	if err := server.Run(); err != nil {
